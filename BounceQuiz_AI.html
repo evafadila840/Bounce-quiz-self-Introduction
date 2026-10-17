@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#5b4bdb">
+<title>BounceQuiz AI — Self Introduction</title>
+<style>
+:root{--ink:#20223b;--muted:#666b86;--purple:#5b4bdb;--purple2:#8878ff;--bg:#f5f6ff;--card:#fff;--green:#16845b;--red:#c53d56;--line:#e5e7f5}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#f4f3ff,#f1fbff);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button,input,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 16px;font-weight:750;transition:transform .12s,filter .12s}button:hover{filter:brightness(1.04)}button:active{transform:scale(.98)}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #b3aaff;outline-offset:2px}
+.primary{background:var(--purple);color:white}.secondary{background:#eeecff;color:#4335b4}.quiet{background:#f1f2fa;color:#434663}.good{background:#e3f8ee;color:#126847}.bad{background:#ffebef;color:#a82b43}
+.wrap{max-width:1180px;margin:auto;padding:20px}.hero{background:linear-gradient(120deg,#5042c7,#8878ff);color:white;border-radius:24px;padding:24px 26px;box-shadow:0 12px 30px #5446c42a}
+.brandline{display:flex;align-items:center;gap:12px}.logo{display:grid;place-items:center;width:50px;height:50px;border-radius:16px;background:#ffffff2b;font-size:27px}.hero h1{margin:0;font-size:clamp(1.6rem,4vw,2.35rem)}.hero p{margin:7px 0 0;color:#f0efff}.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}.pill{border:1px solid #ffffff50;background:#ffffff1c;padding:6px 10px;border-radius:99px;font-size:.88rem}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0}.stat,.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 5px 18px #2d2d6510}.stat{padding:15px}.stat .label{color:var(--muted);font-size:.85rem}.stat strong{display:block;font-size:1.55rem;margin-top:3px}.progress{height:8px;background:#ecebfa;border-radius:99px;overflow:hidden;margin-top:10px}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#5b4bdb,#22b88a);transition:width .25s}
+.layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.75fr);gap:16px;align-items:start}.panel{padding:18px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.section-head h2{font-size:1.12rem;margin:0}.hint{color:var(--muted);font-size:.9rem;line-height:1.45}
+#playfield{position:relative;min-height:420px;height:clamp(420px,55vw,560px);overflow:hidden;border-radius:18px;background:radial-gradient(circle at 20% 20%,#e5e4ff 0 2px,transparent 3px),radial-gradient(circle at 80% 60%,#d8f7ef 0 3px,transparent 4px),linear-gradient(145deg,#f2f0ff,#e9f8ff);border:1px solid #dddef8;touch-action:manipulation}
+.ball{position:absolute;width:62px;height:62px;border-radius:50%;display:grid;place-items:center;color:white;font-weight:850;font-size:1.05rem;border:3px solid #ffffffd9;box-shadow:0 7px 15px #3b337c25,inset 0 -7px 0 #00000012;user-select:none;transition:filter .15s}.ball:hover{filter:brightness(1.08);z-index:5}.ball.done{background:linear-gradient(145deg,#21a978,#16845b)!important}.ball.done::after{content:"✓";position:absolute;right:-3px;top:-7px;background:white;color:#16845b;border-radius:50%;width:21px;height:21px;font-size:13px;display:grid;place-items:center;border:1px solid #b8ead4}.ball:disabled{cursor:default;opacity:.9}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;color:var(--muted);font-size:.83rem}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+.side-title{margin:0 0 8px;font-size:1.12rem}.type-label{display:inline-block;background:#eeecff;color:#4b3dbd;padding:5px 9px;border-radius:99px;font-size:.78rem;font-weight:800;margin-bottom:12px}.question-text{font-size:1.13rem;line-height:1.55;font-weight:750;margin:0 0 15px}.answers{display:grid;gap:9px}.choice{display:flex;align-items:flex-start;text-align:left;gap:10px;background:white;color:var(--ink);border:1px solid #dfe1f1;padding:12px;border-radius:13px;font-weight:600}.choice .letter{flex:0 0 27px;height:27px;display:grid;place-items:center;border-radius:8px;background:#f0efff;color:#4d3fc1;font-weight:850}.choice.selected{border-color:var(--purple);background:#f5f3ff;box-shadow:0 0 0 2px #d9d4ff}.choice:disabled{cursor:default}.choice.correct{border-color:#80d7b2;background:#effcf5}.choice.wrong{border-color:#f1a3b1;background:#fff3f5}
+textarea{width:100%;min-height:105px;border:1px solid #dfe1f1;border-radius:12px;padding:12px;resize:vertical;background:white;color:var(--ink)}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.feedback{margin-top:14px;padding:13px;border-radius:13px;line-height:1.5}.feedback h3{margin:0 0 5px;font-size:1rem}.feedback p{margin:5px 0}.rubric{background:#f8f8ff;border:1px solid var(--line);padding:12px;border-radius:12px;margin-top:12px;font-size:.88rem;line-height:1.5}.rubric ul{padding-left:20px;margin:7px 0}.empty{display:grid;place-items:center;text-align:center;min-height:280px;color:var(--muted);padding:20px}.empty .emoji{font-size:2.8rem;margin-bottom:8px}
+.results{display:none;margin:18px 0;background:white;border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 8px 28px #25225e12}.results.show{display:block}.results h2{margin:0 0 6px;font-size:1.8rem}.resultgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:18px 0}.resultbox{background:#f7f7ff;border-radius:14px;padding:14px}.resultbox span{display:block;color:var(--muted);font-size:.86rem}.resultbox strong{font-size:1.4rem}.footer{text-align:center;color:var(--muted);font-size:.8rem;padding:20px}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.wrap{padding:12px}.hero{padding:19px}.panel{padding:14px}#playfield{height:480px;min-height:420px}.resultgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+ <div class="brandline"><div class="logo" aria-hidden="true">🏀</div><div><h1>BounceQuiz AI</h1><p>Belajar percaya diri lewat permainan bola interaktif</p></div></div>
+ <div class="meta"><span class="pill">Bahasa Inggris</span><span class="pill">Self Introduction</span><span class="pill">Kelas VII SMP</span><span class="pill">Asesmen Sumatif</span><span class="pill">16 siswa / 16 soal</span></div>
+</header>
+<section class="stats" aria-label="Progres asesmen">
+ <div class="stat"><div class="label">Terjawab</div><strong id="answered">0 / 16</strong><div class="progress"><span id="progressbar"></span></div></div>
+ <div class="stat"><div class="label">Skor Benar (pilihan ganda)</div><strong id="correctCount">0</strong></div>
+ <div class="stat"><div class="label">Total Poin</div><strong id="points">0 / 1600</strong></div>
+ <div class="stat"><div class="label">Nilai Sementara</div><strong id="grade">0</strong></div>
+</section>
+<section class="layout">
+ <div class="panel">
+  <div class="section-head"><h2>🎯 Area Permainan</h2><span class="hint">Pilih bola untuk membuka soal</span></div>
+  <div id="playfield" aria-label="Area berisi 16 bola bernomor"></div>
+  <div class="legend"><span><i class="dot" style="background:#7968f2"></i>Belum selesai</span><span><i class="dot" style="background:#16845b"></i>Selesai</span><span>● Bola bergerak dan memantul</span></div>
+ </div>
+ <aside class="panel" id="questionPanel" aria-live="polite">
+  <div class="empty"><div><div class="emoji">👆</div><h2 class="side-title">Pilih sebuah bola!</h2><p class="hint">Setiap bola berisi satu soal unik tentang memperkenalkan diri dalam bahasa Inggris.</p></div></div>
+ </aside>
+</section>
+<section class="results" id="results" aria-live="polite">
+ <h2>🎉 BounceQuiz Selesai!</h2><p class="hint">Semua 16 soal sudah diselesaikan dan seluruh penilaian telah dikonfirmasi.</p>
+ <div class="resultgrid">
+  <div class="resultbox"><span>Jumlah soal</span><strong>16</strong></div>
+  <div class="resultbox"><span>Soal selesai</span><strong id="rAnswered">16 / 16</strong></div>
+  <div class="resultbox"><span>Jawaban PG benar</span><strong id="rCorrect">0</strong></div>
+  <div class="resultbox"><span>Jawaban PG salah</span><strong id="rWrong">0</strong></div>
+  <div class="resultbox"><span>Oral Answer dinilai</span><strong id="rOral">0 / 5</strong></div>
+  <div class="resultbox"><span>Total skor</span><strong id="rPoints">0 / 1600</strong></div>
+  <div class="resultbox"><span>Nilai akhir</span><strong id="rGrade">0 / 100</strong></div>
+ </div>
+ <button class="primary" id="restartBtn">↻ Main Lagi</button>
+</section>
+<div class="footer">BounceQuiz AI · Self Introduction · Kelas VII SMP</div>
+</div>
+<script>
+"use strict";
+const questions = [
+ {id:1,type:"mc",q:"You meet a new classmate. What is the best way to introduce yourself?",opts:["My name is Rani.","How old are you?","Good night, everyone.","Where do you live?"],answer:0,explain:"“My name is Rani” is a clear and polite way to tell someone your name.",open:"Write one more sentence to introduce yourself.",indicators:"Siswa menulis satu kalimat tambahan yang relevan, misalnya menyebutkan usia, asal, atau hobi.",rubric:"Kalimat sesuai konteks dan dapat dipahami; perhatikan kosakata serta susunan dasar."},
+ {id:2,type:"mc",q:"A: “What is your name?” B: “____”",opts:["I am twelve years old.","My name is Dito.","I live in Bandung.","I like football."],answer:1,explain:"Pertanyaan “What is your name?” menanyakan nama, jadi jawabannya “My name is Dito.”",open:"Ask a friend politely about their name.",indicators:"Menggunakan pertanyaan “What is your name?” atau “What’s your name?”",rubric:"Ungkapan tanya tepat dan sopan."},
+ {id:3,type:"mc",q:"Choose the correct sentence to tell your age.",opts:["I am thirteen years old.","I have thirteen years.","I thirteen year old.","I am years thirteen."],answer:0,explain:"Dalam bahasa Inggris, usia dinyatakan dengan pola “I am + number + years old.”",open:"Write a sentence telling your age. You may choose an age for practice.",indicators:"Menggunakan pola “I am … years old” dengan susunan kata yang tepat.",rubric:"Pola kalimat benar dan angka usia jelas."},
+ {id:4,type:"mc",q:"Which question asks where someone comes from?",opts:["How are you?","What is your hobby?","Where are you from?","How old are you?"],answer:2,explain:"“Where are you from?” digunakan untuk menanyakan asal seseorang.",open:"Answer the question “Where are you from?”",indicators:"Jawaban menyebutkan tempat asal, misalnya “I am from Kendari.”",rubric:"Menyebutkan tempat asal dengan kalimat yang dapat dipahami."},
+ {id:5,type:"mc",q:"Complete the sentence: “I live ____ Surabaya.”",opts:["on","at","from","in"],answer:3,explain:"Gunakan “in” untuk menyebutkan kota tempat tinggal: “I live in Surabaya.”",open:"Write the name of a city in a sentence about where you live.",indicators:"Menggunakan “I live in …” diikuti nama kota.",rubric:"Preposisi dan susunan kalimat sesuai."},
+ {id:6,type:"mc",q:"Which sentence tells someone about a hobby?",opts:["I am in Class Seven.","My hobby is drawing.","I am eleven years old.","I come from Makassar."],answer:1,explain:"“My hobby is drawing” menyampaikan hobi seseorang.",open:"Write one sentence about your hobby.",indicators:"Menyebutkan satu hobi dengan pola “My hobby is …” atau “I like …”.",rubric:"Hobi disebutkan dan kalimat mudah dipahami."},
+ {id:7,type:"mc",q:"Your friend says, “Nice to meet you.” What should you reply?",opts:["I am from Bali.","I am fourteen.","Nice to meet you too.","My hobby is swimming."],answer:2,explain:"Balasan yang umum dan sopan adalah “Nice to meet you too.”",open:"Write a short two-line greeting when meeting a new friend.",indicators:"Dialog memuat sapaan/perkenalan dan respons yang sesuai.",rubric:"Respons sopan, relevan, dan dapat dipahami."},
+ {id:8,type:"mc",q:"Choose the best introduction for a new class.",opts:["This is my pencil. It is blue.","Hello, I’m Sinta. I’m in Class Seven.","Where is the library?","Please open your book."],answer:1,explain:"Kalimat tersebut menyebutkan nama dan kelas, sehingga cocok untuk memperkenalkan diri.",open:"Add one sentence about your school or class.",indicators:"Menambahkan informasi sekolah atau kelas dengan kalimat sederhana.",rubric:"Informasi relevan dan susunan dasar cukup tepat."},
+ {id:9,type:"mc",q:"Which sentence is grammatically correct?",opts:["She name is Maya.","Her is name Maya.","Her name are Maya.","Her name is Maya."],answer:3,explain:"Pola yang benar adalah “Her name is Maya.” Kata “her” menunjukkan kepemilikan.",open:"Change the sentence to introduce a boy named Bima.",indicators:"Contoh: “His name is Bima.”",rubric:"Menggunakan “his” dan “is” dengan benar."},
+ {id:10,type:"mc",q:"Complete the introduction: “Hello! My name is Arif. ____ I am from Medan.”",opts:["Yesterday","Thank you","I am twelve years old.","Goodbye"],answer:2,explain:"Kalimat tentang usia cocok melengkapi rangkaian perkenalan diri.",open:"Write three short sentences to introduce yourself.",indicators:"Memuat minimal tiga informasi relevan, seperti nama, usia, asal, kelas, atau hobi.",rubric:"Informasi cukup, relevan, dan dapat dipahami."},
+ {id:11,type:"mc",q:"A: “What do you like?” B: “____”",opts:["I like reading comics.","I am from Aceh.","My name is Tono.","I am in Class Seven."],answer:0,explain:"“What do you like?” menanyakan hal yang disukai; “I like reading comics” menjawabnya.",open:"Ask someone about something they like, then write a possible answer.",indicators:"Pertanyaan menggunakan “What do you like?” atau bentuk setara; jawaban menyebutkan kesukaan.",rubric:"Pertanyaan dan jawaban saling sesuai."},
+ {id:12,type:"oral",q:"Introduce yourself to a new friend in 3–4 simple English sentences.",explain:"Perkenalan yang baik dapat mencakup nama, usia, asal atau tempat tinggal, dan hobi. Gunakan kalimat sederhana dan urutan yang jelas.",open:"Tuliskan atau ucapkan perkenalan diri 3–4 kalimat dalam bahasa Inggris.",indicators:"Menyebutkan nama dan sedikitnya dua informasi lain yang relevan; kalimat dapat dipahami.",rubric:"100: lengkap, relevan, dan jelas. 50: sebagian informasi benar tetapi ada kekurangan. 0: belum menjawab sesuai tugas."},
+ {id:13,type:"oral",q:"Tell your classmates your name, class, and one thing you like.",explain:"Gunakan kalimat sederhana, misalnya memperkenalkan nama, menyebutkan kelas, lalu menyampaikan kesukaan.",open:"Sampaikan nama, kelas, dan satu hal yang kamu sukai dalam bahasa Inggris.",indicators:"Memuat nama, kelas, dan satu kesukaan dengan ungkapan yang dapat dipahami.",rubric:"100: ketiga unsur disampaikan jelas. 50: hanya sebagian unsur disampaikan. 0: jawaban tidak sesuai atau kosong."},
+ {id:14,type:"oral",q:"Imagine a new student asks, “Where are you from and where do you live?” Answer in English.",explain:"Bedakan tempat asal (“I am from …”) dengan tempat tinggal (“I live in …”). Keduanya bisa sama atau berbeda.",open:"Jawab kedua pertanyaan dalam bahasa Inggris.",indicators:"Memberikan informasi asal dan tempat tinggal; penggunaan pola kalimat tepat atau dapat dipahami.",rubric:"100: kedua informasi jelas. 50: hanya satu informasi jelas atau ada kesalahan yang mengganggu. 0: belum menjawab pertanyaan."},
+ {id:15,type:"oral",q:"Say a short dialogue with a new friend: greet them, tell your name, and ask their name.",explain:"Dialog singkat dapat menggunakan “Hello!”, “My name is …”, dan “What is your name?”",open:"Ucapkan atau tulis dialog dua orang dengan sapaan, nama, dan pertanyaan nama.",indicators:"Ada sapaan, perkenalan nama, dan pertanyaan nama; alur dialog masuk akal.",rubric:"100: semua unsur ada dan dialog jelas. 50: sebagian unsur ada. 0: belum sesuai tugas."},
+ {id:16,type:"oral",q:"Talk about one hobby you enjoy and give one reason why you like it.",explain:"Sebutkan hobi lalu alasan sederhana, misalnya “I like cycling because it is fun.”",open:"Sampaikan satu hobi dan satu alasan dalam bahasa Inggris.",indicators:"Menyebutkan hobi dan alasan yang relevan dengan ungkapan sederhana.",rubric:"100: hobi dan alasan jelas. 50: hanya hobi atau alasan yang jelas. 0: belum menjawab sesuai tugas."}
+];
+const colors=["#7968f2","#ec6c92","#269cbd","#e6a13c","#5b9a65","#d46cbe","#4e78d7","#d86e51"];
+const state={selected:null,answers:{},done:new Set(),scores:{},mcCorrect:0};
+const field=document.getElementById("playfield"), panel=document.getElementById("questionPanel");
+const balls=[];
+function shufflePositions(){const w=field.clientWidth,h=field.clientHeight,s=62;balls.forEach((b,i)=>{b.x=Math.max(0,Math.min(w-s,b.x));b.y=Math.max(0,Math.min(h-s,b.y));});}
+function initBalls(){
+ field.innerHTML="";balls.length=0;
+ const w=field.clientWidth||600,h=field.clientHeight||500;
+ questions.forEach((q,i)=>{const el=document.createElement("button");el.className="ball";el.type="button";el.textContent=q.id;el.setAttribute("aria-label",`Bola ${q.id}, buka soal`);el.style.background=`linear-gradient(145deg,${colors[i%colors.length]},${colors[(i+3)%colors.length]})`;field.appendChild(el);
+ const b={el,x:Math.random()*Math.max(1,w-64),y:Math.random()*Math.max(1,h-64),vx:(Math.random()>.5?1:-1)*(0.55+Math.random()*.65),vy:(Math.random()>.5?1:-1)*(0.5+Math.random()*.7),id:q.id};balls.push(b);el.addEventListener("click",()=>openQuestion(q.id));});
+ updateBalls();shufflePositions();
+}
+function updateBalls(){const w=field.clientWidth,h=field.clientHeight,s=62;for(const b of balls){b.x+=b.vx;b.y+=b.vy;if(b.x<=0||b.x>=w-s)b.vx*=-1;if(b.y<=0||b.y>=h-s)b.vy*=-1;b.x=Math.max(0,Math.min(w-s,b.x));b.y=Math.max(0,Math.min(h-s,b.y));b.el.style.transform=`translate(${b.x}px,${b.y}px)`;b.el.classList.toggle("done",state.done.has(b.id));b.el.disabled=state.done.has(b.id);b.el.setAttribute("aria-label",`Bola ${b.id}${state.done.has(b.id)?", selesai":", belum selesai"}`);}}
+function animate(){if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches)updateBalls();requestAnimationFrame(animate)}requestAnimationFrame(animate);
+function openQuestion(id){if(state.done.has(id))return;state.selected=id;renderQuestion(questions[id-1]);}
+function renderQuestion(q){
+ const isOral=q.type==="oral",saved=state.answers[q.id];
+ panel.innerHTML=`<span class="type-label">${isOral?"ORAL ANSWER · PENILAIAN GURU":"MULTIPLE CHOICE"}</span><h2 class="side-title">Bola ${q.id} dari 16</h2><p class="question-text">${esc(q.q)}</p><div id="answerArea"></div><div id="afterArea"></div>`;
+ const area=document.getElementById("answerArea");
+ if(!isOral){
+  const wrap=document.createElement("div");wrap.className="answers";
+  q.opts.forEach((opt,i)=>{const btn=document.createElement("button");btn.className="choice";btn.type="button";btn.innerHTML=`<span class="letter">${"ABCD"[i]}</span><span>${esc(opt)}</span>`;btn.disabled=!!saved;if(saved&&i===q.answer)btn.classList.add("correct");if(saved&&saved.answer===i&&i!==q.answer)btn.classList.add("wrong");if(state.answers[q.id]?.answer===i)btn.classList.add("selected");btn.addEventListener("click",()=>{if(state.answers[q.id])return;state.answers[`temp${q.id}`]={answer:i};wrap.querySelectorAll(".choice").forEach(x=>x.classList.remove("selected"));btn.classList.add("selected");});wrap.appendChild(btn);});area.appendChild(wrap);
+  const actions=document.createElement("div");actions.className="actions";actions.innerHTML=`<button class="primary" id="submitMc" ${saved?"disabled":""}>Kirim Jawaban</button><button class="quiet" id="cancelQ">Tutup</button>`;area.appendChild(actions);
+  document.getElementById("submitMc").addEventListener("click",()=>{const tmp=state.answers[`temp${q.id}`];if(!tmp){alert("Pilih salah satu jawaban A–D terlebih dahulu.");return;}delete state.answers[`temp${q.id}`];state.answers[q.id]={answer:tmp.answer};state.scores[q.id]=tmp.answer===q.answer?100:0;if(tmp.answer===q.answer)state.mcCorrect++;state.done.add(q.id);updateStats();renderQuestion(q);});
+ }else{
+  const label=document.createElement("label");label.htmlFor="oralResponse";label.innerHTML="<strong>Jawaban siswa (opsional jika dinilai langsung secara lisan)</strong>";area.appendChild(label);
+  const ta=document.createElement("textarea");ta.id="oralResponse";ta.placeholder="Ketik jawaban bahasa Inggris di sini…";ta.value=saved?.response||"";ta.disabled=!!saved;area.appendChild(ta);
+  if(!saved){const tip=document.createElement("p");tip.className="hint";tip.textContent="Guru mendengarkan jawaban lisan, lalu memilih skor berdasarkan rubrik.";area.appendChild(tip);
+   const rubric=document.createElement("div");rubric.className="rubric";rubric.innerHTML=`<strong>Rubrik guru</strong><ul><li>100 poin — Benar / sangat tepat</li><li>50 poin — Sebagian benar / cukup tepat</li><li>0 poin — Salah / belum tepat</li></ul><strong>Indikator jawaban:</strong> ${esc(q.indicators)}<br><strong>Panduan:</strong> ${esc(q.rubric)}`;area.appendChild(rubric);
+   const scoreLabel=document.createElement("p");scoreLabel.innerHTML="<strong>Pilih nilai guru:</strong>";scoreLabel.style.marginBottom="8px";area.appendChild(scoreLabel);
+   const scores=document.createElement("div");scores.className="actions";scores.innerHTML=`<button class="secondary" data-score="100">100 poin</button><button class="secondary" data-score="50">50 poin</button><button class="secondary" data-score="0">0 poin</button>`;area.appendChild(scores);let chosen=null;scores.querySelectorAll("button").forEach(btn=>btn.addEventListener("click",()=>{chosen=Number(btn.dataset.score);scores.querySelectorAll("button").forEach(x=>x.className="secondary");btn.className="primary";document.getElementById("confirmOral").disabled=false;}));
+   const acts=document.createElement("div");acts.className="actions";acts.innerHTML=`<button class="primary" id="confirmOral" disabled>Konfirmasi Nilai</button><button class="quiet" id="cancelQ">Kembali ke permainan</button>`;area.appendChild(acts);
+   document.getElementById("confirmOral").addEventListener("click",()=>{if(chosen===null)return;state.answers[q.id]={response:ta.value,score:chosen};state.scores[q.id]=chosen;state.done.add(q.id);updateStats();renderQuestion(q);});
+  }else{const rubric=document.createElement("div");rubric.className="rubric";rubric.innerHTML=`<strong>Indikator jawaban:</strong> ${esc(q.indicators)}<br><strong>Rubrik:</strong> ${esc(q.rubric)}`;area.appendChild(rubric);const acts=document.createElement("div");acts.className="actions";acts.innerHTML='<button class="quiet" id="cancelQ">Kembali ke permainan</button>';area.appendChild(acts);}
+ }
+ const cancel=document.getElementById("cancelQ");if(cancel)cancel.addEventListener("click",showEmpty);
+ if(state.done.has(q.id))renderFeedback(q);
+}
+function renderFeedback(q){
+ const after=document.getElementById("afterArea");if(!after)return;const isOral=q.type==="oral",score=state.scores[q.id];let title,klass;
+ if(isOral){title=score===100?"Sangat tepat!":score===50?"Cukup tepat — masih bisa ditingkatkan.":"Belum tepat — terus berlatih.";klass=score===100?"good":score===50?"feedback":"bad";}
+ else{const correct=state.answers[q.id].answer===q.answer;title=correct?"Benar! Hebat!":"Belum tepat.";klass=correct?"good":"bad";}
+ after.innerHTML=`<div class="feedback ${klass}"><h3>${title}</h3>${isOral?`<p><strong>Nilai guru:</strong> ${score}/100</p><p>${esc(q.explain)}</p>`:`<p><strong>Jawaban benar:</strong> ${"ABCD"[q.answer]}. ${esc(q.opts[q.answer])}</p><p>${esc(q.explain)}</p>`}</div>
+ <div class="rubric"><strong>Pertanyaan terbuka lanjutan:</strong><p>${esc(q.open)}</p><strong>Indikator jawaban:</strong><p>${esc(q.indicators)}</p><strong>Rubrik guru:</strong><p>${esc(q.rubric)}</p></div>
+ <div class="actions"><button class="primary" id="backToGame">Kembali ke Permainan</button></div>`;
+ document.getElementById("backToGame").addEventListener("click",showEmpty);
+}
+function showEmpty(){state.selected=null;panel.innerHTML='<div class="empty"><div><div class="emoji">👆</div><h2 class="side-title">Pilih bola berikutnya!</h2><p class="hint">Bola yang sudah selesai ditandai centang dan tidak bisa dikerjakan kembali pada sesi ini.</p></div></div>';if(state.done.size===16)showResults();}
+function updateStats(){
+ const total=Object.values(state.scores).reduce((a,b)=>a+b,0),answered=state.done.size,grade=Math.round(total/16);
+ document.getElementById("answered").textContent=`${answered} / 16`;document.getElementById("correctCount").textContent=state.mcCorrect;document.getElementById("points").textContent=`${total} / 1600`;document.getElementById("grade").textContent=grade;document.getElementById("progressbar").style.width=`${answered/16*100}%`;
+ updateBalls();if(answered===16)showResults();
+}
+function showResults(){if(state.done.size!==16)return;const mc=questions.filter(q=>q.type==="mc");const wrong=mc.length-state.mcCorrect;const oral=questions.filter(q=>q.type==="oral").filter(q=>state.done.has(q.id)).length;const total=Object.values(state.scores).reduce((a,b)=>a+b,0);document.getElementById("rAnswered").textContent=`${state.done.size} / 16`;document.getElementById("rCorrect").textContent=state.mcCorrect;document.getElementById("rWrong").textContent=wrong;document.getElementById("rOral").textContent=`${oral} / 5`;document.getElementById("rPoints").textContent=`${total} / 1600`;document.getElementById("rGrade").textContent=`${(total/16).toFixed(2)} / 100`;document.getElementById("results").classList.add("show");}
+function resetGame(){state.selected=null;state.answers={};state.done=new Set();state.scores={};state.mcCorrect=0;document.getElementById("results").classList.remove("show");updateStats();showEmpty();balls.forEach((b,i)=>{b.x=Math.random()*Math.max(1,field.clientWidth-62);b.y=Math.random()*Math.max(1,field.clientHeight-62);b.vx=(Math.random()>.5?1:-1)*(0.55+Math.random()*.65);b.vy=(Math.random()>.5?1:-1)*(0.5+Math.random()*.7)});updateBalls();}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+document.getElementById("restartBtn").addEventListener("click",resetGame);
+window.addEventListener("resize",()=>{shufflePositions();updateBalls();});
+initBalls();updateStats();
+</script>
+</body>
+</html>
